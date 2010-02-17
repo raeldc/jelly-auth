@@ -13,7 +13,7 @@ class Model_Auth_User_Token extends Jelly
 			'token' => new Field_String(array(
 				'unique' => TRUE,
 				'rules' => array(
-					'max_length' => 32
+					'max_length' => array(32)
 				)
 			)),
 			'user' => new Field_BelongsTo,

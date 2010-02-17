@@ -16,29 +16,29 @@ class Model_Auth_User extends Jelly
 			'username' => new Field_String(array(
 				'unique' => TRUE,
 				'rules' => array(
-						'not_empty' => TRUE,
-						'max_length' => 32,
-						'min_length' => 3,
-						'regex' => '/^[\pL_.-]+$/ui'
+						'not_empty' => array(TRUE),
+						'max_length' => array(32),
+						'min_length' => array(3),
+						'regex' => array('/^[\pL_.-]+$/ui')
 					)
 				)),
 			'password' => new Field_Password(array(
 				'hash_with' => array(Auth::instance(), 'hash_password'),
 				'rules' => array(
-					'not_empty' => TRUE,
-					'max_length' => 50,
-					'min_length' => 6
+					'not_empty' => array(TRUE),
+					'max_length' => array(50),
+					'min_length' => array(6)
 				)
 			)),
 			'password_confirm' => new Field_Password(array(
 				'in_db' => FALSE,
 				'callbacks' => array(
-					//'matches' => array($this, '_check_password_matches')
+					'matches' => array('Model_Auth_User', '_check_password_matches')
 				),
 				'rules' => array(
-					'not_empty' => TRUE,
-					'max_length' => 50,
-					'min_length' => 6
+					'not_empty' => array(TRUE),
+					'max_length' => array(50),
+					'min_length' => array(6)
 				)
 			)),
 			'email' => new Field_Email(array(
@@ -61,13 +61,11 @@ class Model_Auth_User extends Jelly
 	 * @param string   $field
 	 * @return void
 	 */
-	public function _check_password_matches(Validate $array, $field)
+	public static function _check_password_matches(Validate $array, $field)
 	{
 		$auth = Auth::instance();
 		
-		$salt = $auth->find_salt($array['password']);		
-
-		if ($array['password'] !== $auth->hash_password($array[$field], $salt))
+		if ($array['password'] !== $array[$field])
 		{
 			// Re-use the error messge from the 'matches' rule in Validate
 			$array->error($field, 'matches', array('param1' => 'password'));
