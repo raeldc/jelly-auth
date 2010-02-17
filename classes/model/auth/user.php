@@ -66,8 +66,7 @@ class Model_Auth_User extends Jelly
 		$auth = Auth::instance();
 		
 		$salt = $auth->find_salt($array['password']);		
-		echo Kohana::debug($array['password']);
-		die();
+
 		if ($array['password'] !== $auth->hash_password($array[$field], $salt))
 		{
 			// Re-use the error messge from the 'matches' rule in Validate
