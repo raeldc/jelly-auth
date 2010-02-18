@@ -8,7 +8,8 @@ class Model_Auth_Role extends Jelly
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->primary_key = 'name';
+		$meta->primary_key = 'id';
+		$meta->name_key = 'name';
 		$meta->fields += array(
 			'id' => new Field_Primary,
 			'name' => new Field_String(array(
