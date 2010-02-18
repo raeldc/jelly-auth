@@ -37,7 +37,7 @@ class Auth_Jelly extends Auth {
 		
 		if(is_object($user))
 		{
-			$exists = Jelly::factory('user', $user->id)->count();
+			$exists = Jelly::factory('user')->count(array('id' => $user->id));
 			
 			if ( ! $exists) 
 			{
@@ -259,7 +259,7 @@ class Auth_Jelly extends Auth {
 			$current = Jelly::factory('user', array('username' => $user));
 		}
 		
-		if ( $user instanceof Jelly AND $user->loaded()) 
+		if ( $user instanceof Model_User AND $user->loaded()) 
 		{
 			$current = $user;
 		}
