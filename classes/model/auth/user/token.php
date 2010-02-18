@@ -77,7 +77,7 @@ class Model_Auth_User_Token extends Jelly
 	public function delete_expired()
 	{
 		// Delete all expired tokens
-		$this->where('expires', '<', $time())->delete();
+		$this->where('expires', '<', time())->delete();
 		return $this;
 	}
 	
