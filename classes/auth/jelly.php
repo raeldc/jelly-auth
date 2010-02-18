@@ -216,7 +216,6 @@ class Auth_Jelly extends Auth {
 	public function password($user)
 	{
 		// Make sure we have a user object
-		$username = $user;
 		$user = $this->_get_object($user);
 		
 		return $user->password;
