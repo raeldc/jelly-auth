@@ -31,23 +31,8 @@ class Auth_Jelly extends Auth {
 				$user = $this->session->get($this->config['session_key']);
 			}
 		}
-		
-		//check if the user still exists
-		$exists = FALSE;
-		
-		if(is_object($user))
-		{
-			$exists = Jelly::factory('user')->count(array('id' => $user->id));
 			
-			if ( ! $exists) 
-			{
-				//destroy all tokens of this user
-				$this->logout(TRUE, TRUE);
-				return $status;
-			}
-		}
-				
-		if (is_object($user) AND $user instanceof Model_User AND $user->loaded() AND $exists)
+		if (is_object($user) AND $user instanceof Model_User AND $user->loaded())
 		{
 			// Everything is okay so far
 			$status = TRUE;
