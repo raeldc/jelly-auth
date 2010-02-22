@@ -65,7 +65,7 @@ class Model_Auth_User extends Jelly_Model
 		if ($array['password'] !== $array[$field])
 		{
 			// Re-use the error messge from the 'matches' rule in Validate
-			$array->error($field, 'matches', array('param1' => __('password')));
+			$array->error($field, 'matches', array('param1' => 'password'));
 		}
 	}
 	
