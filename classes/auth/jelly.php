@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Jelly Auth driver.
+ *  Auth Jelly driver.
  *
  * @package    Jelly Auth
  * @author     Israel Canasa
@@ -251,4 +251,4 @@ class Auth_Jelly extends Auth {
 		return $current;
 	}
 
-} // End Auth_Sprig_Driver
+} // End Auth_Jelly_Driver
