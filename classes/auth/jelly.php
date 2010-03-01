@@ -17,7 +17,7 @@ class Auth_Jelly extends Auth {
 	 */
 	public function logged_in($role = NULL)
 	{
-		$status = FALSE;
+		$status = FALSE; 
 
 		// Get the user from the session
 		$user = $this->get_user();
