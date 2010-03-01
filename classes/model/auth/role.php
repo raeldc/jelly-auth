@@ -4,13 +4,12 @@
  * @package Jelly Auth
  * @author 	Israel Canasa
  */
-class Model_Auth_Role extends Jelly 
+class Model_Auth_Role extends Jelly_Model
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->primary_key = 'id';
-		$meta->name_key = 'name';
-		$meta->fields += array(
+		$meta->name_key('name')
+			->fields(array(
 			'id' => new Field_Primary,
 			'name' => new Field_String(array(
 				'unique' => TRUE,
@@ -21,6 +20,6 @@ class Model_Auth_Role extends Jelly
 			)),
 			'description' => new Field_Text,
 			'users' => new Field_ManyToMany
-		);
+		));
 	}
 } // End Model_Auth_Role

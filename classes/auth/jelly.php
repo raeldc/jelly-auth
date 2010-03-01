@@ -1,12 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- *  Auth Jelly driver.
+ * Jelly Auth driver.
  *
  * @package    Jelly Auth
  * @author     Israel Canasa
  */
-class Auth_Jelly extends Auth {
+class Bolt_Auth_Jelly extends Auth {
 
 	/**
 	 * Checks if a session is active.
@@ -20,18 +20,18 @@ class Auth_Jelly extends Auth {
 		$status = FALSE;
 
 		// Get the user from the session
-		$user = $this->session->get($this->config['session_key']);
+		$user = $this->get_user();
 				
-		if ( ! is_object($user))
+		if ( ! $user->loaded())
 		{
 			// Attempt auto login
 			if ($this->auto_login())
 			{
 				// Success, get the user back out of the session
-				$user = $this->session->get($this->config['session_key']);
+				$user = $this->get_user();
 			}
 		}
-			
+
 		if (is_object($user) AND $user instanceof Model_User AND $user->loaded())
 		{
 			// Everything is okay so far
@@ -39,7 +39,6 @@ class Auth_Jelly extends Auth {
 
 			if ( ! empty($role))
 			{
-
 				// If role is an array
 				if (is_array($role))
 				{
@@ -85,7 +84,7 @@ class Auth_Jelly extends Auth {
 			if ($remember === TRUE)
 			{
 				// Create a new autologin token
-				$token = Jelly::factory('user_token');
+				$token = Model::factory('user_token');
 
 				// Set token data
 				$token->user = $user->id;
@@ -93,8 +92,8 @@ class Auth_Jelly extends Auth {
 
 				$token->create();
 
-				// Set the autologin cookie
-				cookie::set('authautologin', $token->token, $this->config['lifetime']);
+				// Set the autologin Cookie
+				Cookie::set('authautologin', $token->token, $this->config['lifetime']);
 			}
 
 			// Finish the login
@@ -126,18 +125,18 @@ class Auth_Jelly extends Auth {
 	}
 
 	/**
-	 * Logs a user in, based on the authautologin cookie.
+	 * Logs a user in, based on the authautologin Cookie.
 	 *
 	 * @return  boolean
 	 */
 	public function auto_login()
 	{
-		if ($token = cookie::get('authautologin'))
+		if ($token = Cookie::get('authautologin'))
 		{
 			// Load the token and user
-			$token = Jelly::factory('user_token', array('token' => $token))->load();			
-			
-			if ($token->loaded() AND $token->user->load() AND $token->user->loaded())
+			$token = Jelly::select('user_token')->where('token', '=', $token)->load();
+
+			if ($token->loaded() AND $token->user->loaded())
 			{
 				if ($token->user_agent === sha1(Request::$user_agent))
 				{
@@ -145,7 +144,7 @@ class Auth_Jelly extends Auth {
 					$token->update();
 
 					// Set the new token
-					cookie::set('authautologin', $token->token, $token->expires - time());
+					Cookie::set('authautologin', $token->token, $token->expires - time());
 
 					// Complete the login with the found data
 					$this->complete_login($token->user);
@@ -163,25 +162,25 @@ class Auth_Jelly extends Auth {
 	}
 
 	/**
-	 * Log a user out and remove any auto-login cookies.
+	 * Log a user out and remove any auto-login Cookies.
 	 *
 	 * @param   boolean  completely destroy the session
 	 * @param	boolean  remove all tokens for user
 	 * @return  boolean
 	 */
-	public function logout($destroy = FALSE, $logout_all = FALSE)
+	public function logout($destroy = FALSE, $logout_all = TRUE)
 	{
-		if ($token = cookie::get('authautologin'))
+		if ($token = Cookie::get('authautologin'))
 		{
-			// Delete the autologin cookie to prevent re-login
-			cookie::delete('authautologin');
+			// Delete the autologin Cookie to prevent re-login
+			Cookie::delete('authautologin');
 			
 			// Clear the autologin token from the database
-			$token = Jelly::factory('user_token', array('token' => $token));
+			$token = Jelly::select('user_token')->where('token', '=', $token)->limit(1)->load();
 
 			if ($token->loaded() AND $logout_all)
 			{
-				Jelly::factory('user_token', array('user_id' => $token->user->id))->delete();
+				Jelly::delete('user_token')->where('user_id', '=' ,$token->user->id)->execute();
 			}
 			elseif ($token->loaded())
 			{
@@ -226,7 +225,7 @@ class Auth_Jelly extends Auth {
 
 		return parent::complete_login($user);
 	}
-	
+
 	/**
 	 * Convert a unique identifier string to a user object
 	 * 
@@ -241,10 +240,10 @@ class Auth_Jelly extends Auth {
 		if ( ! is_object($current) AND is_string($user))
 		{
 			// Load the user
-			$current = Jelly::factory('user', array('username' => $user));
+			$current = Jelly::select('user')->where('username', '=', $user)->load();
 		}
-		
-		if ( $user instanceof Model_User AND $user->loaded()) 
+
+		if ($user instanceof Model_User AND $user->loaded()) 
 		{
 			$current = $user;
 		}
@@ -252,4 +251,4 @@ class Auth_Jelly extends Auth {
 		return $current;
 	}
 
-} // End Auth_Jelly_Driver
+} // End Auth_Sprig_Driver

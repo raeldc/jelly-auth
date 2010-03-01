@@ -4,25 +4,25 @@
  * @package Sprig Auth
  * @author	Paul Banks
  */
-class Model_Auth_User_Token extends Jelly
+class Model_Auth_User_Token extends Jelly_Model
 {
  	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->fields += array(
-			'id' => new Field_Primary,
-			'token' => new Field_String(array(
-				'unique' => TRUE,
-				'rules' => array(
-					'max_length' => array(32)
-				)
-			)),
-			'user' => new Field_BelongsTo,
-			'user_agent' => new Field_String,
-			'created' => new Field_Timestamp(array(
-				'auto_now_create' => TRUE,
-			)),
-			'expires' => new Field_Timestamp,
-		);
+		$meta->fields(array(
+				'id' => new Field_Primary,
+				'token' => new Field_String(array(
+					'unique' => TRUE,
+					'rules' => array(
+						'max_length' => array(32)
+					)
+				)),
+				'user' => new Field_BelongsTo,
+				'user_agent' => new Field_String,
+				'created' => new Field_Timestamp(array(
+					'auto_now_create' => TRUE,
+				)),
+				'expires' => new Field_Timestamp,
+			));
 		
 		if (mt_rand(1, 100) === 1)
 		{
@@ -40,13 +40,13 @@ class Model_Auth_User_Token extends Jelly
 	public function load($query = NULL, $limit = 1)
 	{
 		parent::load($query, $limit);
-		
+
 		if ($limit === 1 AND $this->loaded() AND $this->expires < time())
 		{
 			$this->delete();
 			$this->_loaded = FALSE;
 		}
-		
+
 		return $this;
 	}
 	
@@ -96,7 +96,7 @@ class Model_Auth_User_Token extends Jelly
 			$token = text::random('alnum', 32);
 
 			// Make sure the token does not already exist
-			if( ! $this->count(array('token' => $token)))
+			if( ! Jelly::select('user_token')->where('token', '=', $token)->count())
 			{
 				// A unique token has been found
 				return $token;

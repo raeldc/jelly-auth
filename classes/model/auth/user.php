@@ -4,14 +4,13 @@
  * @package Jelly Auth
  * @author	Israel Canasa
  */
-class Model_Auth_User extends Jelly
+class Model_Auth_User extends Jelly_Model
 {
 	public static function initialize(Jelly_Meta $meta)
     {
-		$meta->sorting = array('username' => 'ASC');
-		$meta->name_key = 'username';
-
-		$meta->fields += array(
+		$meta->name_key('username')
+			->sorting(array('username' => 'ASC'))
+			->fields(array(
 			'id' => new Field_Primary,
 			'username' => new Field_String(array(
 				'unique' => TRUE,
@@ -46,13 +45,9 @@ class Model_Auth_User extends Jelly
 			)),
 			'logins' => new Field_Integer,
 			'last_login' => new Field_Timestamp,
-			'tokens' => new Field_HasMany(array(
-				'foreign' => array(
-					'model' => 'User_Token'
-				)
-			)),
+			'tokens' => new Field_HasMany,
 			'roles' => new Field_ManyToMany
-		);
+		));
     }
 
 	/**
@@ -95,7 +90,7 @@ class Model_Auth_User extends Jelly
 			$key = 'id';
 			$val = (int) $role;
 		}
-		
+
 		foreach ($this->roles as $user_role)
 		{	
 			if ($user_role->{$key} === $val)
