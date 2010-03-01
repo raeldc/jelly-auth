@@ -18,10 +18,9 @@ class Model_Builder_User_Token extends Jelly_Builder
 	{
 		$object = parent::load($key);
 
-		if ($object->loaded() AND $object->count() === 1 AND $object->expires < time())
+		if ($object->loaded() AND $object->expires < time())
 		{
-			$this->delete();
-			$this->_loaded = FALSE;
+			$object->delete();
 		}
 
 		return $object;

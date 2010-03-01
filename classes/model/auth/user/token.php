@@ -27,7 +27,7 @@ class Model_Auth_User_Token extends Jelly_Model
 		if (mt_rand(1, 100) === 1)
 		{
 			// Do garbage collection
-			$this->delete_expired();
+			Jelly::delete('user_token')->where('expires', '<', time())->execute();
 		}
 	}
 	
@@ -49,19 +49,7 @@ class Model_Auth_User_Token extends Jelly_Model
 		
 		return parent::save();
 	}
-	
-	/**
-	 * Deletes all expired tokens.
-	 *
-	 * @return  void
-	 */
-	public function delete_expired()
-	{
-		// Delete all expired tokens
-		$this->where('expires', '<', time())->delete();
-		return $this;
-	}
-	
+
 	/**
 	 * Finds a new unique token, using a loop to make sure that the token does
 	 * not already exist in the database. This could potentially become an

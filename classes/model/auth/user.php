@@ -44,7 +44,7 @@ class Model_Auth_User extends Jelly_Model
 				'unique' => TRUE
 			)),
 			'logins' => new Field_Integer(array(
-				
+				'default' => 0
 			)),
 			'last_login' => new Field_Timestamp,
 			'tokens' => new Field_HasMany(array(
