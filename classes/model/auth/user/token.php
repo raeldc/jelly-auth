@@ -31,25 +31,6 @@ class Model_Auth_User_Token extends Jelly_Model
 		}
 	}
 	
-	/**
-	 * Handle deletion of expired token on load
-	 * @param array $query [optional]
-	 * @param int $limit [optional]
-	 * @return Sprig
-	 */
-	public function load($query = NULL, $limit = 1)
-	{
-		parent::load($query, $limit);
-
-		if ($limit === 1 AND $this->loaded() AND $this->expires < time())
-		{
-			$this->delete();
-			$this->_loaded = FALSE;
-		}
-
-		return $this;
-	}
-	
 	public function create()
 	{		
 		// Set hash of the user agent
