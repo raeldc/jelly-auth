@@ -6,7 +6,7 @@
  * @package    Jelly Auth
  * @author     Israel Canasa
  */
-class Bolt_Auth_Jelly extends Auth {
+class Auth_Jelly extends Auth {
 
 	/**
 	 * Checks if a session is active.
