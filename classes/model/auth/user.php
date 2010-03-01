@@ -45,7 +45,9 @@ class Model_Auth_User extends Jelly_Model
 			)),
 			'logins' => new Field_Integer,
 			'last_login' => new Field_Timestamp,
-			'tokens' => new Field_HasMany,
+			'tokens' => new Field_HasMany(array(
+				'foreign' => 'user_token'
+			)),
 			'roles' => new Field_ManyToMany
 		));
     }
