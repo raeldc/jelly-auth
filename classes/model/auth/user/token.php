@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die ('No direct script access.');
 /**
- * Sprig Auth User Token Model
- * @package Sprig Auth
- * @author	Paul Banks
+ * Jelly Auth User Token Model
+ * @package Jelly Auth
+ * @author	Israel Canasa
  */
 class Model_Auth_User_Token extends Jelly_Model
 {
