@@ -43,7 +43,9 @@ class Model_Auth_User extends Jelly_Model
 			'email' => new Field_Email(array(
 				'unique' => TRUE
 			)),
-			'logins' => new Field_Integer,
+			'logins' => new Field_Integer(array(
+				'default' => 0
+			)),
 			'last_login' => new Field_Timestamp,
 			'tokens' => new Field_HasMany(array(
 				'foreign' => 'user_token'
@@ -65,7 +67,7 @@ class Model_Auth_User extends Jelly_Model
 		if ($array['password'] !== $array[$field])
 		{
 			// Re-use the error messge from the 'matches' rule in Validate
-			$array->error($field, 'matches', array('param1' => __('password')));
+			$array->error($field, 'matches', array('param1' => 'password'));
 		}
 	}
 	

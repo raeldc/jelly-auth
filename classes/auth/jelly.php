@@ -20,15 +20,15 @@ class Auth_Jelly extends Auth {
 		$status = FALSE;
 
 		// Get the user from the session
-		$user = $this->get_user();
-				
-		if ( ! $user->loaded())
+		$user = $this->session->get($this->config['session_key']);
+
+		if ( ! is_object($user))
 		{
 			// Attempt auto login
 			if ($this->auto_login())
 			{
 				// Success, get the user back out of the session
-				$user = $this->get_user();
+				$user = $this->session->get($this->config['session_key']);
 			}
 		}
 
