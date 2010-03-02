@@ -168,7 +168,7 @@ class Auth_Jelly extends Auth {
 	 * @param	boolean  remove all tokens for user
 	 * @return  boolean
 	 */
-	public function logout($destroy = FALSE, $logout_all = TRUE)
+	public function logout($destroy = FALSE, $logout_all = FALSE)
 	{
 		if ($token = Cookie::get('authautologin'))
 		{
