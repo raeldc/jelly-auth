@@ -32,7 +32,7 @@ class Model_Auth_User extends Jelly_Model
 			'password_confirm' => new Field_Password(array(
 				'in_db' => FALSE,
 				'callbacks' => array(
-					'matches' => array('Model_Auth_User', '_check_password_matches')
+					'matches' => array('Model_Auth_User', 'check_password_matches')
 				),
 				'rules' => array(
 					'not_empty' => array(TRUE),
@@ -60,7 +60,7 @@ class Model_Auth_User extends Jelly_Model
 	 * @param string   $field
 	 * @return void
 	 */
-	protected static function _check_password_matches(Validate $array, $field)
+	public static function check_password_matches(Validate $array, $field)
 	{
 		$auth = Auth::instance();
 		

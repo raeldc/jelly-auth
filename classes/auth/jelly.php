@@ -73,7 +73,7 @@ class Auth_Jelly extends Auth {
 	 * @param   boolean  enable auto-login
 	 * @return  boolean
 	 */
-	public function _login($user, $password, $remember)
+	protected function _login($user, $password, $remember)
 	{
 		// Make sure we have a user object
 		$user = $this->_get_object($user);
