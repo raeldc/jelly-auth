@@ -60,7 +60,7 @@ class Model_Auth_User extends Jelly_Model
 	 * @param string   $field
 	 * @return void
 	 */
-	public static function _check_password_matches(Validate $array, $field)
+	protected static function _check_password_matches(Validate $array, $field)
 	{
 		$auth = Auth::instance();
 		
