@@ -261,7 +261,7 @@ class Auth_Jelly extends Auth {
 		if ( ! is_object($current) AND is_string($user))
 		{
 			// Load the user
-			$current = Jelly::select('user')->where('username', '=', $user)->load();
+			$current = Jelly::select('user')->where('username', '=', $user)->limit(1)->execute();
 		}
 
 		if ($user instanceof Model_User AND $user->loaded()) 
