@@ -15,7 +15,7 @@ class Model_Auth_User extends Jelly_Model
 			'username' => new Field_String(array(
 				'unique' => TRUE,
 				'rules' => array(
-						'not_empty' => array(TRUE),
+						'not_empty' => NULL,
 						'max_length' => array(32),
 						'min_length' => array(3),
 						'regex' => array('/^[\pL_.-]+$/ui')
@@ -24,7 +24,7 @@ class Model_Auth_User extends Jelly_Model
 			'password' => new Field_Password(array(
 				'hash_with' => array(Auth::instance(), 'hash_password'),
 				'rules' => array(
-					'not_empty' => array(TRUE),
+					'not_empty' => NULL,
 					'max_length' => array(50),
 					'min_length' => array(6)
 				)
@@ -35,7 +35,7 @@ class Model_Auth_User extends Jelly_Model
 					'matches' => array('Model_Auth_User', '_check_password_matches')
 				),
 				'rules' => array(
-					'not_empty' => array(TRUE),
+					'not_empty' => NULL,
 					'max_length' => array(50),
 					'min_length' => array(6)
 				)

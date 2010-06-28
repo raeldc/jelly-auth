@@ -15,7 +15,7 @@ class Model_Auth_Role extends Jelly_Model
 				'unique' => TRUE,
 				'rules' => array(
 					'max_length' => array(32),
-					'not_empty' => array(TRUE)
+					'not_empty' => NULL
 				)
 			)),
 			'description' => new Field_Text,
