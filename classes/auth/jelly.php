@@ -242,9 +242,9 @@ class Auth_Jelly extends Auth {
 			return FALSE;
 		}
 
-		$hash = $this->hash_password($password, $this->find_salt($user->password));
+		$hash = $this->hash_password($password, $this->find_salt($this->password($user->username)));
 
-		return $hash == $user->password;
+		return $hash == $this->password($user->username);
 	}
 
 	/**
